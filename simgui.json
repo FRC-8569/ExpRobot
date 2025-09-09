@@ -1,0 +1,20 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/CommandScheduler": "Scheduler",
+      "/SmartDashboard/Elevator": "Mechanism2d",
+      "/SmartDashboard/PathPlanner": "Alerts",
+      "/SmartDashboard/PhotonAlerts": "Alerts",
+      "/SmartDashboard/RobotPoseEasy": "Field2d",
+      "/SmartDashboard/UpdatingAlerts": "Alerts",
+      "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
+    }
+  },
+  "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "visible": true
+  }
+}
