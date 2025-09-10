@@ -15,11 +15,12 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
-import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Elevator.Constants.ReefHeight;
+import frc.utils.FullState;
 
 public class RealElevator extends SubsystemBase {
     public SparkMax LeftMotor, RightMotor, Shooter;
@@ -28,7 +29,6 @@ public class RealElevator extends SubsystemBase {
     private SparkMaxConfig LeftConfig, RightConfig, ShooterConfig;
     public StringPublisher CurrentHeight;
     public DoublePublisher PerciseHeight;
-    public Alert InfoAlert;
 
     public RealElevator(){
         LeftMotor = new SparkMax(Constants.LeftID, MotorType.kBrushless);
@@ -39,8 +39,6 @@ public class RealElevator extends SubsystemBase {
 
         CurrentHeight = NetworkTableInstance.getDefault().getStringTopic("Elevator/CurrentHeight").publish();
         PerciseHeight = NetworkTableInstance.getDefault().getDoubleTopic("Elevator/PerciseHeight").publish();
-        // InfoAlert = new Alert("UpdatingAlerts","ElevatorPlaceholder", AlertType.kInfo);
-        // InfoAlert.set(true);
 
         LeftConfig = new SparkMaxConfig();
         RightConfig = new SparkMaxConfig();
@@ -77,11 +75,8 @@ public class RealElevator extends SubsystemBase {
     }
 
     public Command elevate(ReefHeight height){
-        return elevate(height.getHeight());
-    }
-    
-    public Command score(ReefHeight height){
-        return elevate(height).andThen(spinShooter(false));
+        return elevate(height.getHeight())
+            .alongWith(Commands.runOnce(() -> FullState.getInstance().withElevatorTarget(height)));
     }
 
     private Command elevate(double height){
@@ -95,9 +90,10 @@ public class RealElevator extends SubsystemBase {
 
     public Command spinShooter(boolean isIntake){
         return runEnd(
-            () -> Shooter.set(isIntake ? 0.3 : 0.5), 
+            () -> Shooter.set(isIntake ? 0.3 : 0.8), 
             () -> Shooter.stopMotor())
-            .withTimeout(DriverStation.isAutonomous() ? isIntake ? Seconds.of(1) : Seconds.of(0.4) : Seconds.of(135));
+            .withTimeout(DriverStation.isAutonomous() ? isIntake ? Seconds.of(1) : Seconds.of(0.35) : Seconds.of(135))
+            .alongWith(Commands.runOnce(() -> FullState.getInstance().withShooterState(isIntake ? "吃Coral" : "吐Coral")));
     }
 
     public ReefHeight getHeight(){
@@ -118,7 +114,7 @@ public class RealElevator extends SubsystemBase {
 
     @Override
     public void periodic(){
-        CurrentHeight.accept(getHeight().toString());
+        CurrentHeight.accept(getHeight().toString().substring(getHeight().toString().length() - 2));
         PerciseHeight.accept(getPerciseHeight());
     }
 }

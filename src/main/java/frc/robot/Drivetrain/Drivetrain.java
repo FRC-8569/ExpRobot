@@ -2,6 +2,7 @@ package frc.robot.Drivetrain;
 
 import static edu.wpi.first.units.Units.Centimeters;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Seconds;
 
@@ -35,12 +36,14 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Auto.Constants.FieldPieces;
 import frc.robot.Auto.Constants.ReefSide;
 import frc.robot.Vision.RealVision;
 import frc.robot.Vision.SimVision;
 import frc.robot.Vision.Vision;
+import frc.utils.FullState;
 
 public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements Subsystem {
     private static final Time SimLoop = Milliseconds.of(5);
@@ -51,6 +54,7 @@ public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
 
     private SwerveRequest.ApplyRobotSpeeds AutoDrive;
     private DoublePublisher[] CANCoderPositions;
+    private DoublePublisher MotorTorque;
 
     public Drivetrain(SwerveDrivetrainConstants DrivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
         super(TalonFX::new, TalonFX::new, CANcoder::new, DrivetrainConstants,
@@ -62,6 +66,7 @@ public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                 NetworkTableInstance.getDefault().getDoubleTopic("Drivetrain/debug/BLPosition").publish(),
                 NetworkTableInstance.getDefault().getDoubleTopic("Drivetrain/debug/BRPosition").publish()
         };
+        MotorTorque = NetworkTableInstance.getDefault().getDoubleTopic("Drivetrain/MotorTorque").publish();
 
         vision = Utils.isSimulation() ? new SimVision()
                 : (NetworkTableInstance.getDefault().getTable("photonvision").getTopic("version").exists())
@@ -76,9 +81,6 @@ public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
         AutoInit();
         if (Utils.isSimulation())
             startSim();
-        // NowDoing = new Alert("UpdatingAlerts","DrivetrainPlaceholder",
-        // AlertType.kInfo);
-        // NowDoing.set(true);
     }
 
     public Command drive(Supplier<SwerveRequest> req) {
@@ -87,7 +89,8 @@ public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
 
     public Command drive(FieldPieces pieces, ReefSide side) {
         return drive(
-                pieces.getItemPose(getState().Pose, DriverStation.getAlliance().orElseThrow()).transformBy(side.getPose()));
+                pieces.getItemPose(getState().Pose, DriverStation.getAlliance().orElseThrow()).transformBy(side.getPose()))
+                .alongWith(Commands.runOnce(() -> FullState.getInstance().withDrivetrainTarget(pieces, side)));
     }
 
     public Command drive(Pose2d CenterPose) {
@@ -172,6 +175,7 @@ public class Drivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
         }
 
         vision.update(getState().Pose);
+        MotorTorque.accept(4*getModule(1).getDriveMotor().getStatorCurrent().getValueAsDouble()*getModule(1).getDriveMotor().getMotorKT().getValueAsDouble()*Constants.DriveGearRatio*0.9/Constants.WheelRadius.times(Math.PI).in(Meters));
     }
 
     public void AutoInit() {

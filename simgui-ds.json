@@ -102,5 +102,7 @@
     {
       "guid": "Keyboard0"
     }
-  ]
+  ],
+  "useEnableDisableHotkeys": true,
+  "useEstopHotkey": true
 }

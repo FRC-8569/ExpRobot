@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.utils.FullState;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -28,10 +29,11 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     field2d.setRobotPose(m_robotContainer.drivetrain.getState().Pose);
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("BatteryV;oltage", RobotController.getBatteryVoltage());
+    SmartDashboard.putNumber("BatteryVoltage", RobotController.getBatteryVoltage());
     SmartDashboard.putData("RobotPoseEasy",field2d);
-    SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
     SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("SpeedMode", m_robotContainer.SpeedMode);
+    FullState.getInstance().periodic();
   }
 
   @Override

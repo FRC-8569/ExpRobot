@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
     public static final AprilTagFieldLayout field = frc.robot.Vision.Constants.Field;
-    public static final LinearVelocity MaxDriveVelocity = MetersPerSecond.of(4.8);
+    public static final LinearVelocity MaxDriveVelocity = MetersPerSecond.of(4);
     public static final LinearAcceleration MaxAccel = MetersPerSecondPerSecond.of(9.8);
     public static final AngularVelocity MaxOmega = RotationsPerSecond.of(3);
     public static final AngularAcceleration MaxOmegaAccel = DegreesPerSecondPerSecond.of(3079);
@@ -30,7 +30,7 @@ public class Constants {
             MaxOmegaAccel);
 
     public enum FieldPieces {
-        CoralStation(2, 12),
+        CoralStation(2, 13),
         Processor(9, 16),
         ReefAB(7, 18),
         ReefCD(11, 17),
@@ -70,6 +70,15 @@ public class Constants {
                 case Left -> new Transform2d(Centimeters.of(0), Centimeters.of(-32.862 /2), Rotation2d.kZero);
                 case Right -> new Transform2d(Centimeters.of(0), Centimeters.of(32.862 /2), Rotation2d.kZero);
                 case Null -> Transform2d.kZero;
+            };
+        }
+
+        @Override
+        public String toString(){
+            return switch(this){
+                case Left -> "的左邊";
+                case Right -> "的右邊";
+                case Null -> "";
             };
         }
     }

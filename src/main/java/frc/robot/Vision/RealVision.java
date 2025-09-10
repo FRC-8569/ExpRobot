@@ -15,6 +15,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RealVision implements Vision{
     public PhotonCamera DriverCamera, LocalizationCamera;
@@ -24,7 +26,8 @@ public class RealVision implements Vision{
     public StructArrayPublisher<Transform3d> Transoforms;
     public StringPublisher FPSState;
     public StructPublisher<Pose3d> CameraPose;
-    
+    public Field2d field2d;
+
     public RealVision(){
         DriverCamera = new PhotonCamera(Constants.DriverCamera);
         LocalizationCamera = new PhotonCamera(Constants.LocalizationCamera);
@@ -37,6 +40,7 @@ public class RealVision implements Vision{
         Transoforms = NetworkTableInstance.getDefault().getStructArrayTopic("Vision/Targets", Transform3d.struct).publish();
         Transoforms.setDefault(new Transform3d[]{Transform3d.kZero});
         CameraPose = NetworkTableInstance.getDefault().getStructTopic("Vision/CameraPose", Pose3d.struct).publish();
+        field2d = new Field2d();
     }
 
     @Override
@@ -55,6 +59,7 @@ public class RealVision implements Vision{
                 }
                 Transoforms.accept(t.toArray(Transform3d[]::new));
 
+                field2d.setRobotPose(pose.toPose2d());
                 return pose.toPose2d();
             }catch(Exception e){
                 isPhotonUpdated.accept(false);
@@ -65,6 +70,7 @@ public class RealVision implements Vision{
 
     @Override
     public void update(Pose2d pose){
+        SmartDashboard.putData("RawPoseEasy", field2d);
     }
 
 

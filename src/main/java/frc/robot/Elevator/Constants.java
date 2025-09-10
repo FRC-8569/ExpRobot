@@ -42,5 +42,14 @@ public class Constants {
             };
         }
 
+        @Override
+        public String toString(){
+            return switch(this){
+                case L0 -> "降到L0";
+                case L1 -> "升到L1";
+                case L2 -> "升到L2";
+                case L3 -> "升到L3";
+            };
+        }
     }
 }
