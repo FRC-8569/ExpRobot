@@ -1,5 +1,7 @@
 package frc.robot.Elevator;
 
+import java.util.InputMismatchException;
+
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 
@@ -21,7 +23,8 @@ public class Constants {
         L0(0), // Intake Mode
         L1(102), // 102
         L2(150),
-        L3(214);
+        L3(214),
+        L4(300);
 
         private double height;
 
@@ -39,6 +42,18 @@ public class Constants {
                 case L1 -> L2;
                 case L2 -> L3;
                 case L3 -> L0;
+                case L4 -> L4;
+            };
+        }
+
+        public int toInt(){
+            return switch(this){
+                case L0 -> 0;
+                case L1 -> 1;
+                case L2 -> 2;
+                case L3 -> 3;
+                case L4 -> 4;
+                default -> throw new InputMismatchException("Not Supported lah");
             };
         }
 
@@ -49,6 +64,7 @@ public class Constants {
                 case L1 -> "升到L1";
                 case L2 -> "升到L2";
                 case L3 -> "升到L3";
+                case L4 -> "L4";
             };
         }
     }

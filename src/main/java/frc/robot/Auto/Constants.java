@@ -55,6 +55,18 @@ public class Constants {
             else
                 return field.getTagPose(tags[alliance == Alliance.Red ? 0 : 1]).orElseThrow().toPose2d();
         }
+
+        public int toInt(){
+            return switch (this) {
+                case ReefAB -> 0;
+                case ReefCD -> 2;
+                case ReefEF -> 4;
+                case ReefGH -> 6;
+                case ReefIJ -> 8;
+                case ReefKL -> 10;
+                default -> -1;
+            };
+        }
     }
 
     public enum ReefSide {
