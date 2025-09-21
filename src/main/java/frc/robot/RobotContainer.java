@@ -47,6 +47,10 @@ public class RobotContainer {
     //   .onTrue(Commands.runOnce(() -> SpeedMode -= 0.1));
     // new Trigger(() -> joystick.getRightBumperButton()).and(() -> SpeedMode <= 1)
     //   .onTrue(Commands.runOnce(() -> SpeedMode += 0.1));
+    // new Trigger(() -> joystick.getStartButton())
+    //   .onTrue(Commands.runOnce(() -> drivetrain.seedFieldCentric()));
+    // new Trigger(() -> joystick.getXButton())
+    //   .onTrue(drivetrain.drive(FieldPieces.CoralStation));
     new Trigger(() -> joystick.getRawButton(1)).and(() -> SpeedMode >= 0)
       .onTrue(Commands.runOnce(() -> SpeedMode -= 0.1));
     new Trigger(() -> joystick.getRawButton(2)).and(() -> SpeedMode <= 1)

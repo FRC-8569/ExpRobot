@@ -92,7 +92,7 @@ public class RealElevator extends SubsystemBase {
         return runEnd(
             () -> Shooter.set(isIntake ? 0.3 : 0.8), 
             () -> Shooter.stopMotor())
-            .withTimeout(DriverStation.isAutonomous() ? isIntake ? Seconds.of(1) : Seconds.of(0.35) : Seconds.of(135))
+            .withTimeout(DriverStation.isAutonomous() ? isIntake ? Seconds.of(0.8) : Seconds.of(0.35) : Seconds.of(135))
             .alongWith(Commands.runOnce(() -> FullState.getInstance().withShooterState(isIntake ? "吃Coral" : "吐Coral")));
     }
 

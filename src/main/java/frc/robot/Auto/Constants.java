@@ -1,10 +1,10 @@
 package frc.robot.Auto;
 
 import static edu.wpi.first.units.Units.Centimeters;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.pathplanner.lib.path.PathConstraints;
 
@@ -21,10 +21,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
     public static final AprilTagFieldLayout field = frc.robot.Vision.Constants.Field;
-    public static final LinearVelocity MaxDriveVelocity = MetersPerSecond.of(4);
+    public static final LinearVelocity MaxDriveVelocity = MetersPerSecond.of(3.5);
     public static final LinearAcceleration MaxAccel = MetersPerSecondPerSecond.of(9.8);
-    public static final AngularVelocity MaxOmega = RotationsPerSecond.of(3);
-    public static final AngularAcceleration MaxOmegaAccel = DegreesPerSecondPerSecond.of(3079);
+    public static final AngularVelocity MaxOmega = DegreesPerSecond.of(540);
+    public static final AngularAcceleration MaxOmegaAccel = DegreesPerSecondPerSecond.of(720);
     public static final Distance RobotSize = Centimeters.of(80).div(2);
     public static final PathConstraints Constraints = new PathConstraints(MaxDriveVelocity, MaxAccel, MaxOmega,
             MaxOmegaAccel);
