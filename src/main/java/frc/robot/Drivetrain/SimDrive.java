@@ -1,11 +1,5 @@
 package frc.robot.Drivetrain;
 
-// Copyright 2021-2025 Iron Maple 5516
-// Original Source:
-// https://github.com/Shenzhen-Robotics-Alliance/maple-sim/blob/main/templates/CTRE%20Swerve%20with%20maple-sim/src/main/java/frc/robot/utils/simulation/MapleSimSwerveDrivetrain.java
-//
-// This code is licensed under MIT license (see https://mit-license.org/)
-
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
