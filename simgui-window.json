@@ -12,7 +12,7 @@
       "userScale": "2",
       "width": "1280",
       "xpos": "141",
-      "ypos": "821"
+      "ypos": "743"
     }
   },
   "Table": {
@@ -31,7 +31,7 @@
   "Window": {
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "120,13",
+      "Pos": "119,13",
       "Size": "169,184"
     },
     "###Joysticks": {

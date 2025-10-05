@@ -1,21 +1,21 @@
 [
   {
     "type": "java",
-    "name": "jar (in project ExpRobot)",
+    "name": "jar (in project ExpRobo)",
     "extensions": [
       {
         "name": "Sim GUI",
-        "libName": "/Users/justmore5mins/Documents/documents/FRC/ExpRobot/build/jni/release/libhalsim_gui.dylib",
+        "libName": "/Users/justmore5mins/Documents/FRC/ExpRobo/build/jni/release/libhalsim_gui.dylib",
         "defaultEnabled": true
       },
       {
         "name": "Use Real DriverStation",
-        "libName": "/Users/justmore5mins/Documents/documents/FRC/ExpRobot/build/jni/release/libhalsim_ds_socket.dylib",
+        "libName": "/Users/justmore5mins/Documents/FRC/ExpRobo/build/jni/release/libhalsim_ds_socket.dylib",
         "defaultEnabled": false
       }
     ],
     "environment": {},
-    "libraryDir": "/Users/justmore5mins/Documents/documents/FRC/ExpRobot/build/jni/release",
+    "libraryDir": "/Users/justmore5mins/Documents/FRC/ExpRobo/build/jni/release",
     "mainClassName": "frc.robot.Main"
   }
 ]
